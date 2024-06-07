@@ -54,27 +54,67 @@ public static class Program
         notFullSized.ForEach(word => _notFullSizedWords.Add(word));
     }
 
-    public static void MakeCombinations(Word word, int nrOfWordsInCombination = 2)
+    public static void MakeCombinations()
     {
-        var nrOfAvailableLetters = MaxNrOfLetters - word.Value.Length;
-
-        _notFullSizedWords.ForEach(part =>
+        //make every combo of 2 words
+        _notFullSizedWords.ForEach(word =>
         {
-            if (part.Value == word.Value || part.Value.Length != nrOfAvailableLetters)
+            //add new word to combo
+            _notFullSizedWords.ForEach(word2 =>
             {
-                return;
-            }
-
-            var combo = part.Value + word.Value;
-
-            //only add the combination if it's valid
-            if (_fullSizedWords.Contains(combo))
-            {
-                word.Combinations.Add(new CombinationWord()
+                if (word2 != word)
                 {
-                    Value = combo, WordsNeeded = new List<Word>() { part, word }
-                });
-            }
+                    //initialize new combo
+                    var combo = new CombinationWord() { Value = word, WordsNeeded = new List<string>() { word } };
+
+                    combo.AddWord(word2);
+
+                    //save new combo
+                    _CombinationWords.Add(combo);
+                }
+            });
         });
+
+        FilterOnCriteria();
+
+        //repeat for number of word needed
+        for (int currentNrOfCombinations = 2; currentNrOfCombinations < NrOfWordsNeeded; currentNrOfCombinations++)
+        {
+            AddAnotherWordToCombos();
+            FilterOnCriteria();
+        }
+
+        //check if combo in file
+        _CombinationWords = _CombinationWords.Where(combo => _fullSizedWords.Contains(combo.Value)).ToList();
+    }
+
+    public static void FilterOnCriteria()
+    {
+        //check the max letter length
+        _CombinationWords = _CombinationWords.Where(combo => combo.Value.Length <= MaxNrOfLetters).ToList();
+
+        //check if there is a possibility that it might be in the file
+        _CombinationWords = _CombinationWords.Where(combo => _fullSizedWords.Any(word => word.Contains(combo.Value)))
+            .ToList();
+    }
+
+    public static void AddAnotherWordToCombos()
+    {
+        var newComboList = new List<CombinationWord>();
+        _CombinationWords.ForEach(combo =>
+        {
+            _notFullSizedWords.ForEach(word =>
+            {
+                var newcombo = new CombinationWord(combo);
+
+                //if word is already in this combo => skip
+                if (!combo.WordsNeeded.Contains(word))
+                {
+                    newcombo.AddWord(word);
+                    newComboList.Add(newcombo);
+                }
+            });
+        });
+        _CombinationWords = newComboList;
     }
 }
