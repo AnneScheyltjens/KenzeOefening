@@ -6,6 +6,7 @@ public static class Program
     public static List<string> _notFullSizedWords = new List<string>();
     public static List<CombinationWord> _CombinationWords = new List<CombinationWord>();
     private const int MaxNrOfLetters = 6;
+    private const int NrOfWordsNeeded = 2;
 
     private static void Main(string[] args)
     {
