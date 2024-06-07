@@ -2,13 +2,13 @@
 
 public class CombinationWord
 {
-    public List<Word> WordsNeeded { get; set; } = new List<Word>();
+    public List<string> WordsNeeded { get; set; }
     public string Value { get; set; }
 
     public override string ToString()
     {
         var result = "";
-        WordsNeeded.ForEach(word => result += $"{word.Value} + ");
+        WordsNeeded.ForEach(word => result += $"{word} + ");
 
         result = result.Remove(result.Length - 2, 2);
 

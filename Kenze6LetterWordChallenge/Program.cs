@@ -3,7 +3,8 @@
 public static class Program
 {
     public static List<string> _fullSizedWords = new List<string>();
-    public static List<Word> _notFullSizedWords = new List<Word>();
+    public static List<string> _notFullSizedWords = new List<string>();
+    public static List<CombinationWord> _CombinationWords = new List<CombinationWord>();
     private const int MaxNrOfLetters = 6;
 
     private static void Main(string[] args)
