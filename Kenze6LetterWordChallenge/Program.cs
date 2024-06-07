@@ -26,17 +26,13 @@ public static class Program
 
         SplitWordList(words);
 
-        _notFullSizedWords.ForEach(word => MakeCombinations(word));
+        var nrOfWords = 1;
 
-
-        _notFullSizedWords.ForEach(word =>
+        MakeCombinations();
+        _CombinationWords.ForEach(combo =>
         {
-            if (word.Combinations.Count == 0)
-            {
-                return;
-            }
-
-            word.Combinations.ForEach(Console.WriteLine);
+            Console.WriteLine($"{nrOfWords}: {combo}");
+            nrOfWords++;
         });
     }
 
