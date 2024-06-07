@@ -51,7 +51,7 @@ public static class Program
         _fullSizedWords.AddRange(words.Where(word => word.Length == MaxNrOfLetters).Distinct());
 
         var notFullSized = words.Where(word => word.Length != MaxNrOfLetters).Distinct().ToList();
-        notFullSized.ForEach(word => _notFullSizedWords.Add(new Word() { Value = word }));
+        notFullSized.ForEach(word => _notFullSizedWords.Add(word));
     }
 
     public static void MakeCombinations(Word word, int nrOfWordsInCombination = 2)
